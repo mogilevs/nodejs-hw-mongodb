@@ -13,14 +13,13 @@ export const startServer = () => {
   app.use(pino({ transport: { target: 'pino-pretty' } }));
 
   app.get('/contacts', async (req, res) => {
+    console.log('res in contacts', res);
     const contacts = await getAllContacts();
-    res
-      .status(200)
-      .json({
-        status: 200,
-        message: 'Successfully found contacts!',
-        data: contacts,
-      });
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
+      data: contacts,
+    });
   });
   app.get('/contacts/:contactId', async (req, res, next) => {
     const { contactId } = req.params;
@@ -37,6 +36,7 @@ export const startServer = () => {
   });
 
   app.use((err, req, res) => {
+    console.log('res in 500', err, req, res);
     res.status(500).json({
       message: 'Something went wrong',
       error: err.message,
