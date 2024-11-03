@@ -34,5 +34,6 @@ export const deleteContact = async (contactId) => {
   const contact = await ContactsCollection.findByIdAndDelete({
     _id: contactId,
   });
+  if (!contact) return null;
   return contact;
 };
