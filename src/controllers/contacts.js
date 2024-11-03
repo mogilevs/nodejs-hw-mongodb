@@ -17,27 +17,22 @@ export const getContactsController = async (req, res, next) => {
   });
 };
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(contactId)) {
-    return next(createHttpError(404, 'Contact not found'));
+    throw createHttpError(404, 'Contact not found');
+  }
+  const contact = await getContactById(contactId);
+
+  if (!contact) {
+    throw createHttpError(404, 'Contact not found');
   }
 
-  try {
-    const contact = await getContactById(contactId);
-
-    if (!contact) {
-      return next(createHttpError(404, 'Contact not found'));
-    }
-
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id ${contactId}!`,
-      data: contact,
-    });
-  } catch (error) {
-    next(createHttpError(500, 'Internal Server Error'));
-  }
+  res.status(200).json({
+    status: 200,
+    message: `Successfully found contact with id ${contactId}!`,
+    data: contact,
+  });
 };
 
 export const createContactController = async (req, res) => {
@@ -53,7 +48,7 @@ export const createContactController = async (req, res) => {
 export const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const result = await updateContact(contactId, req.body);
-  console.log(result);
+
   if (!result) {
     throw createHttpError(404, `Contact not found`);
   }
