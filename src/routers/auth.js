@@ -3,21 +3,28 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   loginUserController,
   registerUserController,
+  logoutUserController,
+  refreshUserController,
 } from '../controllers/auth.js';
-import { valdateBody } from '../middlewares/valdateBody.js';
+import validateBody from '../utils/validateBody.js';
 import { registerUserSchema, loginUserSchema } from '../validation/auth.js';
 
 const authRouter = Router();
 
 authRouter.post(
   '/auth/register',
-  valdateBody(registerUserSchema),
+  validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
 
 authRouter.post(
   '/auth/login',
-  valdateBody(loginUserSchema),
+  validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
+
+authRouter.post('/auth/logout', ctrlWrapper(logoutUserController));
+
+authRouter.post('/auth/refresh', ctrlWrapper(refreshUserController));
+
 export default authRouter;

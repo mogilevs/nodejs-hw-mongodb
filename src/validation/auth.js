@@ -1,8 +1,9 @@
 import Joi from 'joi';
+import { emailRegEx } from '../constants/auth.js';
 
-const registerUserSchema = Joi.object({
+export const registerUserSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
-  email: Joi.string().required(),
+  email: Joi.string().pattern(emailRegEx).required(),
   password: Joi.string().required(),
 });
 
