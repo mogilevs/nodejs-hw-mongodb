@@ -7,13 +7,28 @@ import {
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { sortByList } from '../db/models/contact.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getContactsController = async (req, res, next) => {
-  const contacts = await getAllContacts();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
+  const filter = parseFilterParams(req.query);
+  console.log(filter);
+
+  const data = await getAllContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
-    data: contacts,
+    data,
   });
 };
 
@@ -36,8 +51,7 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-  const { _id: userId } = req.user;
-  const contact = await createContact({ ...req.body, userId });
+  const contact = await createContact(req.body);
 
   res.status(201).json({
     status: 201,
