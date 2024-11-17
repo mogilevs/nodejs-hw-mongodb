@@ -28,7 +28,7 @@ export const authenticate = async (req, res, next) => {
     return;
   }
 
-  const user = UserCollection.findById(session.userId);
+  const user = await UserCollection.findById(session.userId);
   if (!user) {
     next(createHttpError(401));
     return;
