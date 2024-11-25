@@ -98,27 +98,30 @@ export const requestResetToken = async (email) => {
     'reset-password-email.html',
   );
 
-  const templateSource = await fs
-    .readFile(resetPasswordTemplatePath)
-    .toString();
+  const templateSource = (
+    await fs.readFile(resetPasswordTemplatePath)
+  ).toString();
+
   const template = handlebars.compile(templateSource);
+
   const html = template({
     name: user.name,
     link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
-  // try {
-  await sendMail({
-    from: env(SMTP.SMTP_FROM),
-    to: email,
-    subject: 'Reset your password',
-    html,
-  });
-  // } catch (error) {
-  //   throw createHttpError(
-  //     500,
-  //     'Failed to send the email, please try again later.',
-  //   );
-  // }
+
+  try {
+    await sendMail({
+      from: env(SMTP.SMTP_FROM),
+      to: email,
+      subject: 'Reset your password',
+      html,
+    });
+  } catch (error) {
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };
 
 export const resetPassword = async (payload) => {
