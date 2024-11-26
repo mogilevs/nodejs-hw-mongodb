@@ -133,7 +133,7 @@ export const resetPassword = async (payload) => {
     if (err instanceof Error) throw createHttpError(401, err.message);
     throw err;
   }
-  const user = UserCollection.findOne({
+  const user = await UserCollection.findOne({
     email: entries.email,
     _id: entries.sub,
   });
@@ -141,8 +141,8 @@ export const resetPassword = async (payload) => {
   if (!user) throw createHttpError(404, 'User not found');
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  await UserCollection.findOne({
-    _id: user.id,
-    password: encryptedPassword,
-  });
+  await UserCollection.updateOne(
+    { _id: user.id },
+    { password: encryptedPassword },
+  );
 };
