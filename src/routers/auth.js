@@ -15,6 +15,7 @@ import {
   requestResetEmailSchema,
   resetPasswordSchema,
 } from '../validation/auth.js';
+import { getGoogleOAuthUrlController } from '../controllers/auth.js';
 
 const authRouter = Router();
 
@@ -46,4 +47,5 @@ authRouter.post(
   ctrlWrapper(resetPasswordController),
 );
 
+authRouter.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
 export default authRouter;
