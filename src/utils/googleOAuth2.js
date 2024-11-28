@@ -15,7 +15,7 @@ const googleOauthClient = new OAuth2Client({
 });
 
 export const generateAuthUrl = () => {
-  googleOauthClient.generateAuthUrl({
+  return googleOauthClient.generateAuthUrl({
     scope: [
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile',
@@ -29,6 +29,7 @@ export const validateCode = async (code) => {
   const ticket = await googleOauthClient.verifyIdToken({
     idToken: response.tokens.id_token,
   });
+  console.log('first', ticket);
   return ticket;
 };
 

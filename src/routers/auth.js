@@ -50,7 +50,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  '/confirm-oauth',
+  '/confirm-google-oauth',
   validateBody(loginWithGoogleOAuthSchema),
   ctrlWrapper(loginWithGoogleController),
 );

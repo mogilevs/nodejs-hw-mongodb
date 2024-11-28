@@ -89,6 +89,7 @@ export const resetPasswordController = async (req, res) => {
 
 export const getGoogleOAuthUrlController = async (req, res) => {
   const url = generateAuthUrl();
+
   res.json({
     status: 200,
     message: 'Successfully get Google OAuth url!',
