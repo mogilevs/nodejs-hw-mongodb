@@ -30,21 +30,10 @@ parameters:
       enum: ['asc', 'desc']
       example: 'asc'
   - in: query
-    name: userId
-    schema:
-      type: string
-      example: '6748999009782adc18966014'
-  - in: query
     name: isFavourite
     schema:
       type: boolean
       example: true
-  - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: ['work', 'home', 'personal']
-      example: male
 responses:
   '200':
     description: Successfully found contacts!
