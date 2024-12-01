@@ -81,14 +81,6 @@
           },
           {
             "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "string",
-              "example": "6748999009782adc18966014"
-            }
-          },
-          {
-            "in": "query",
             "name": "isFavourite",
             "schema": {
               "type": "boolean",
@@ -97,7 +89,7 @@
           },
           {
             "in": "query",
-            "name": "contactType",
+            "name": "type",
             "schema": {
               "type": "string",
               "enum": [
@@ -105,7 +97,7 @@
                 "home",
                 "personal"
               ],
-              "example": "male"
+              "example": "personal"
             }
           }
         ],
